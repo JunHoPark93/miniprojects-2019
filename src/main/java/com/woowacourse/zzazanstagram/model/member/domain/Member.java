@@ -20,6 +20,14 @@ public class Member extends BaseEntity {
         return this.password.isMatch(password);
     }
 
+    public void updateMember(Member member) {
+        this.nickName = member.nickName;
+        this.name = member.name;
+        this.email = member.email;
+        this.password = member.password;
+        this.profileImage = member.profileImage;
+    }
+
     public NickName getNickName() {
         return nickName;
     }

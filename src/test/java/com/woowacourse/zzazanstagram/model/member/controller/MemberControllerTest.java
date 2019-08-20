@@ -90,4 +90,24 @@ class MemberControllerTest extends RequestTemplate {
                 .expectHeader().valueMatches("location", URL_REGEX + "/login" + JSESSIONID_URL)
                 .expectStatus().is3xxRedirection();
     }
+
+    @Test
+    void 유저_수정_페이지_접근() {
+        getHeaderWithLogin("/members/1/edit")
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    void 유저_수정() {
+        putHeaderWithLogin("/members/1/edit")
+                .body(WebTestHelper.userSignUpForm(
+                        "modify@gmail.com",
+                        "modifyName",
+                        "https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-600w-1048185397.jpg",
+                        "modifyNick",
+                        "Pp123!@#"))
+                .exchange()
+                .expectStatus().isFound();
+    }
 }

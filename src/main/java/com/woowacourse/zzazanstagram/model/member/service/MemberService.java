@@ -3,6 +3,7 @@ package com.woowacourse.zzazanstagram.model.member.service;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.domain.vo.Email;
 import com.woowacourse.zzazanstagram.model.member.domain.vo.NickName;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberSignUpRequest;
 import com.woowacourse.zzazanstagram.model.member.exception.MemberNotFoundException;
 import com.woowacourse.zzazanstagram.model.member.exception.MemberSaveException;
@@ -34,5 +35,17 @@ public class MemberService {
         NickName nickName = NickName.of(memberSignupRequest.getNickName());
         Email email = Email.of(memberSignupRequest.getEmail());
         return memberRepository.existsByNickNameOrEmail(nickName, email);
+    }
+
+    public void edit(Long memberId, MemberSignUpRequest memberSignUpRequest) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException("잘못된 접근입니다."));
+        member.updateMember(MemberAssembler.toEntity(memberSignUpRequest));
+        memberRepository.save(member);
+    }
+
+    public MemberResponse find(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new MemberNotFoundException("잘못된 접근입니다."));
+        return MemberAssembler.assemble(member);
     }
 }

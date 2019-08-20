@@ -45,6 +45,12 @@ public abstract class RequestTemplate {
                 .header("Cookie", getCookie());
     }
 
+    public WebTestClient.RequestBodySpec putHeaderWithLogin(String uri) {
+        return webTestClient.put()
+                .uri(uri)
+                .header("Cookie", getCookie());
+    }
+
     public WebTestClient.RequestHeadersSpec<?> getRequest(String url) {
         return webTestClient.get().uri(url);
     }
